@@ -1,0 +1,24 @@
+name: Pruebas del conversor
+ 
+on: #define con que acciones se dispara la action
+  push: #en este caso en el push
+ 
+jobs: #son los trabajos que se realiza
+  test: #nombre opcional, podría modificarse
+    runs-on: ubuntu-latest #le dice a los de git que lo prueben en una versión última de ubuntu
+      #aunque estaría mucho mejor en un gentoo asi tienen que compilar a mano y se tardan más
+ 
+    steps:    #steps son los pasos a seguir por el job
+      - name: Obtener el código #name nombra la acción y descriibe lo que hace
+        uses: actions/checkout@v6   #La instrucción uses invoca una acción reutilizable de la comunidad
+ 
+      - name: Configurar Python  
+        uses: actions/setup-python@v5
+        with:      #ermite pasarle parámetros o configuraciones específicas a la acción de la línea anterior
+          python-version: "3.12"
+ 
+      - name: Instalar dependencias
+        run: python -m pip install -r requirements-dev.txt #la instrucción run ejecuta un comando común de terminal
+ 
+      - name: Ejecutar pruebas
+        run: python -m pytest -v   #Ejecuta en la terminal el comando pytest para iniciar las pruebas automáticas
